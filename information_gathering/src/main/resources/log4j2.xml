@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="info">
+	<Appenders>
+		<Console name="console" target="SYSTEM_OUT">
+			<PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5p %c{1}(%F:%L) - %m%n" />
+		</Console>
+
+		<RollingFile name="fixedTimeFileAppender" fileName="F:/logs/pmes-adm.log" 
+			filePattern="F:/logs/pmes-adm.log.%d{yyyy-MM-dd}.%i.log.gz">
+			<PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5p %c{2}(%F:%L) - %m%n" />
+			<Policies>
+				<TimeBasedTriggeringPolicy />
+				<SizeBasedTriggeringPolicy size="1024 MB" />
+			</Policies>
+			<DefaultRolloverStrategy max="512" />
+		</RollingFile>
+
+		<RollingFile name="appMonitorFixedTimeFileAppender"
+			fileName="F:/logs/pmes-bots-appmonitor.log"
+			filePattern="F:/logs/pmes-bots-appmonitor.log.%d{yyyy-MM-dd}.%i.log.gz">
+			<PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5p %c{1}(%F:%L) - %m%n" />
+			<Policies>
+				<TimeBasedTriggeringPolicy />
+				<SizeBasedTriggeringPolicy size="1024 MB" />
+			</Policies>
+			<DefaultRolloverStrategy max="512" />
+		</RollingFile>
+
+		<RollingFile name="appMonitorFixedTimeFileAppender" fileName="F:/logs/pmes-adm-appmonitor.log"
+			filePattern="F:/logs/pmes-adm-appmonitor.log.%d{yyyy-MM-dd}.%i.log.gz">
+			<PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5p %c{2}(%F:%L) - %m%n" />
+			<Policies>
+				<TimeBasedTriggeringPolicy />
+				<SizeBasedTriggeringPolicy size="1024 MB" />
+			</Policies>
+			<DefaultRolloverStrategy max="512" />
+
+		</RollingFile>
+
+		<RollingFile name="myBatisFileAppender" fileName="F:/logs/mybatis.log" filePattern="F:/logs/mybatis.log.%d{yyyy-MM-dd}.%i.log.gz">
+			<PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5p %c{1}(%F:%L) - %m%n" />
+			<Policies>
+				<TimeBasedTriggeringPolicy />
+				<SizeBasedTriggeringPolicy size="1024 MB" />
+			</Policies>
+			<DefaultRolloverStrategy max="512" />
+		</RollingFile>
+
+		<Async name="async" bufferSize="512" includeLocation="true">
+			<AppenderRef ref="fixedTimeFileAppender" />
+		</Async>
+
+		<Async name="asyncAppMonitor" bufferSize="512">
+			<AppenderRef ref="appMonitorFixedTimeFileAppender" />
+		</Async>
+
+		<Async name="myBatis" bufferSize="512" includeLocation="true">
+			<AppenderRef ref="myBatisFileAppender" />
+			<AppenderRef ref="console" />
+		</Async>
+	</Appenders>
+
+	<Loggers>
+		<Logger name="cn.dms" level="info" additivity="false">
+			<!-- <AppenderRef ref="ASYNC" /> -->
+			<AppenderRef ref="async" />
+			<AppenderRef ref="console" />
+		</Logger>
+
+		<Logger name="appMonitor" level="info" additivity="false">
+			<!-- <AppenderRef ref="ASYNC" /> -->
+			<AppenderRef ref="asyncAppMonitor" />
+			<AppenderRef ref="console" />
+		</Logger>
+
+		<Logger name="org.apache.ibatis" level="info" additivity="false">
+			<AppenderRef ref="myBatis" />
+			<AppenderRef ref="console" />
+		</Logger>
+
+		<Logger name="org.mybatis" level="info" additivity="false">
+			<AppenderRef ref="console" />
+			<AppenderRef ref="myBatis" />
+		</Logger>
+
+		<Logger name="cn.dms.pmes.adm.dao" level="info" additivity="false">
+			<AppenderRef ref="myBatis" />
+			<AppenderRef ref="console" />
+		</Logger>
+
+		<Root level="info">
+			<AppenderRef ref="async" />
+			<AppenderRef ref="console" />
+		</Root>
+	</Loggers>
+</Configuration>
