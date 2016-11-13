@@ -2,6 +2,7 @@ package com.lm.proxy.tuicool;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.lm.commons.IfgConstants;
@@ -16,6 +17,9 @@ import edu.uci.ics.crawler4j.robotstxt.RobotstxtServer;
 public class TuiCoolController {
     private final static Logger log = LogManager.getLogger(TuiCoolController.class);
 
+    @Value("${tuicool.pages}")
+    private String pages;
+    
     public void getTuiCoolTechArticle(){
     	
         String crawlStorageFolder = IfgConstants.CRAWL_STORAGE_FOLDER;
@@ -33,7 +37,7 @@ public class TuiCoolController {
         CrawlController controller;
 		try {
 			controller = new CrawlController(config, pageFetcher, robotstxtServer);
-			for(int i=0; i<1; i++){
+			for(int i=0; i<Integer.parseInt(pages); i++){
 				controller.addSeed("http://www.tuicool.com/ah/20/" + i + "?lang=1");
 			}
 			
