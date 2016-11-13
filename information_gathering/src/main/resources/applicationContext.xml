@@ -107,6 +107,6 @@
 	</bean>
 
 	<task:scheduled-tasks>
-		<task:scheduled ref="tuiCoolController" method="getTuiCoolTechArticle" cron="0 51 17 * * ?" />
+		<task:scheduled ref="tuiCoolController" method="getTuiCoolTechArticle" cron="0 45 21 * * ?" />
 	</task:scheduled-tasks>
 </beans>

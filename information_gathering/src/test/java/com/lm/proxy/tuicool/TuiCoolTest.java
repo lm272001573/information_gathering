@@ -3,9 +3,11 @@ package com.lm.proxy.tuicool;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.lm.base.BaseTest;
 import com.lm.commons.IfgConstants;
+import com.lm.es.init.TransClient;
 
 import edu.uci.ics.crawler4j.crawler.CrawlConfig;
 import edu.uci.ics.crawler4j.crawler.CrawlController;
@@ -16,9 +18,10 @@ import edu.uci.ics.crawler4j.robotstxt.RobotstxtServer;
 public class TuiCoolTest extends BaseTest{
     private final static Logger log = LogManager.getLogger(TuiCoolTest.class);
 
+    
 	@Test
 	public void getTuiCool(){
-
+		System.out.println(TransClient.getClient());
         String crawlStorageFolder = IfgConstants.CRAWL_STORAGE_FOLDER;
         int numberOfCrawlers = 5;
 

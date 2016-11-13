@@ -22,7 +22,7 @@ import com.lm.proxy.tuicool.TuiCoolController;
  * @author liming
  */
 public class TuiCoolParser {
-	private final static Logger log = LogManager.getLogger(TuiCoolController.class);
+	private final static Logger log = LogManager.getLogger(TuiCoolParser.class);
 
 	public static void parseHtml(String html, String url) {
 		try {
