@@ -51,7 +51,7 @@
 
 	<!-- dao配置 -->
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-		<property name="basePackage" value="cn.dms" />
+		<property name="basePackage" value="cn.lm" />
 		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
 	</bean>
 
@@ -106,5 +106,7 @@
 		<property name="mapperLocations" value="classpath*:**/*Mapper.xml" />
 	</bean>
 
- 
+	<task:scheduled-tasks>
+		<task:scheduled ref="tuiCoolController" method="getTuiCoolTechArticle" cron="0 51 17 * * ?" />
+	</task:scheduled-tasks>
 </beans>
