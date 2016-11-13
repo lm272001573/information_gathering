@@ -1,4 +1,4 @@
-package com.lm.es.test;
+package com.lm.es;
 
 
 import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
@@ -21,11 +21,16 @@ import org.elasticsearch.action.update.UpdateResponse;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
+import com.lm.base.BaseTest;
 import com.lm.es.init.TransClient;
 
-public class EsTest {
+public class EsTest extends BaseTest{
     private final static Logger log = LogManager.getLogger(EsTest.class);
+    
+    @Autowired
+    private TransClient transClient;
 
 	@Test
 	public void t(){
@@ -36,7 +41,7 @@ public class EsTest {
 							.field("gender", "m")
 						.endObject();
 		
-			IndexRequestBuilder builder = TransClient.getClient().prepareIndex("spring", "test", DateUtils.formatDate(new Date(),"yyyy-MM-dd HH:mm:ss"));
+			IndexRequestBuilder builder = transClient.getClient().prepareIndex("spring", "test", DateUtils.formatDate(new Date(),"yyyy-MM-dd HH:mm:ss"));
 			IndexResponse res = builder.setSource(xContentBuilder).get();
 
 			XContentBuilder xContentBuilder1 = jsonBuilder().startObject()
@@ -44,24 +49,24 @@ public class EsTest {
 					.field("age", "25")
 					.field("gender", "m")
 					.endObject();
-			IndexRequestBuilder builder1 = TransClient.getClient().prepareIndex("spring", "test", "2");
+			IndexRequestBuilder builder1 = transClient.getClient().prepareIndex("spring", "test", "2");
 			IndexResponse res1 = builder1.setSource(xContentBuilder1).get();
 			log.info("获取es返回的数据" + res1.toString());
 			
-			GetResponse getResponse = TransClient.getClient().prepareGet("spring", "test", "1").get();
+			GetResponse getResponse = transClient.getClient().prepareGet("spring", "test", "1").get();
 			log.info("getRequest返回数据:" + getResponse);
 			
-			UpdateResponse updateResponse = TransClient.getClient().prepareUpdate("spring", "test", "1")
+			UpdateResponse updateResponse = transClient.getClient().prepareUpdate("spring", "test", "1")
 									.setDoc(jsonBuilder()
 												.startObject()
 													.field("age","25")
 												.endObject()).get();
 			log.info("updateResponse返回数据:" + updateResponse);
 			
-			DeleteResponse deleteResponse = TransClient.getClient().prepareDelete("spring", "test", "2").get();
+			DeleteResponse deleteResponse = transClient.getClient().prepareDelete("spring", "test", "2").get();
 			log.info("deleteResponse返回数据:" + deleteResponse);
 			
-			GetResponse res11 = TransClient.getClient().prepareGet("spring", "test", "1").get();
+			GetResponse res11 = transClient.getClient().prepareGet("spring", "test", "1").get();
 			log.info("res11返回数据:" + res11);
 
 		} catch (IOException e) {
@@ -72,13 +77,13 @@ public class EsTest {
 	
 	@Test
 	public void delete() throws InterruptedException, ExecutionException{
-		DeleteIndexResponse	deleteResponse = TransClient.getClient().admin().indices().prepareDelete("jquery").execute().get();
+		DeleteIndexResponse	deleteResponse = transClient.getClient().admin().indices().prepareDelete("jquery").execute().get();
 		log.info("respose:" + deleteResponse.toString());
 	}
 	
 	@Test
 	public void search(){
-		SearchResponse response = TransClient.getClient().prepareSearch("tuicool")
+		SearchResponse response = transClient.getClient().prepareSearch("tuicool")
 									        .setSearchType(SearchType.DFS_QUERY_THEN_FETCH)
 									       // .setPostFilter(QueryBuilders.boolQuery().must(new QueryStringQueryBuilder("MySQL").field("body")))
 									      .setPostFilter(QueryBuilders.matchQuery("body", "MySQL"))

@@ -1,11 +1,11 @@
-package information.gathering;
+package com.lm.proxy.tuicool;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.Test;
 
+import com.lm.base.BaseTest;
 import com.lm.commons.IfgConstants;
-import com.lm.proxy.tuicool.TuiCoolCrawler;
 
 import edu.uci.ics.crawler4j.crawler.CrawlConfig;
 import edu.uci.ics.crawler4j.crawler.CrawlController;
@@ -13,7 +13,7 @@ import edu.uci.ics.crawler4j.fetcher.PageFetcher;
 import edu.uci.ics.crawler4j.robotstxt.RobotstxtConfig;
 import edu.uci.ics.crawler4j.robotstxt.RobotstxtServer;
 
-public class TuiCoolTest {
+public class TuiCoolTest extends BaseTest{
     private final static Logger log = LogManager.getLogger(TuiCoolTest.class);
 
 	@Test

@@ -19,10 +19,9 @@ import org.elasticsearch.index.query.QueryBuilders;
 import com.lm.commons.IfgConstants;
 import com.lm.enums.IndexAndType;
 import com.lm.es.init.TransClient;
-import com.lm.es.test.EsTest;
 
 public class EsClientUtils extends TransClient {
-	private final static Logger log = LogManager.getLogger(EsTest.class);
+	private final static Logger log = LogManager.getLogger(EsClientUtils.class);
 
 	/**
 	 * 将爬到的数据保存到es

@@ -49,14 +49,18 @@ public class TuiCoolCrawler extends WebCrawler {
      @Override
      public void visit(Page page) {
          String url = page.getWebURL().getURL();
-
-         if (page.getParseData() instanceof HtmlParseData) {
-             HtmlParseData htmlParseData = (HtmlParseData) page.getParseData();
-             String html = htmlParseData.getHtml();
-             
-             if(url.startsWith("http://www.tuicool.com")){
-            	 TuiCoolParser.parseHtml(html, url);
-             }
+         try{
+        	 if (page.getParseData() instanceof HtmlParseData) {
+        		 HtmlParseData htmlParseData = (HtmlParseData) page.getParseData();
+        		 String html = htmlParseData.getHtml();
+        		 
+        		 if(url.startsWith("http://www.tuicool.com")){
+        			 TuiCoolParser.parseHtml(html, url);
+        		 }
+        	 }
+        	 
+         }catch (Exception e){
+        	 log.error("解析网页失败, e", e);
          }
     }
 }
