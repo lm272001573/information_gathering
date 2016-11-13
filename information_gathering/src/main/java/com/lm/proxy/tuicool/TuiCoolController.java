@@ -28,7 +28,7 @@ public class TuiCoolController {
         CrawlConfig config = new CrawlConfig();
         config.setCrawlStorageFolder(crawlStorageFolder);
         config.setMaxDepthOfCrawling(1);
-        config.setPolitenessDelay(1000);
+        config.setPolitenessDelay((int)(Math.random()*50000));
         
         PageFetcher pageFetcher = new PageFetcher(config);
         RobotstxtConfig robotstxtConfig = new RobotstxtConfig();
