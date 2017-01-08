@@ -1,5 +1,6 @@
 package com.lm.proxy.tuicool;
 
+import java.text.MessageFormat;
 import java.util.regex.Pattern;
 
 import org.apache.logging.log4j.LogManager;
@@ -38,6 +39,8 @@ public class TuiCoolCrawler extends WebCrawler {
      @Override
      public boolean shouldVisit(Page referringPage, WebURL url) {
          String href = url.getURL().toLowerCase();
+         log.info(MessageFormat.format("should visit url:{0}, result = {1}", href, !FILTERS.matcher(href).matches() 
+     		 	&& href.contains("/articles/")));
          return !FILTERS.matcher(href).matches() 
         		 	&& href.contains("/articles/");
      }

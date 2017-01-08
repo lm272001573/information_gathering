@@ -12,7 +12,6 @@ import org.jsoup.select.Elements;
 import com.lm.commons.IfgConstants;
 import com.lm.enums.IndexAndType;
 import com.lm.es.util.EsClientUtils;
-import com.lm.proxy.tuicool.TuiCoolController;
 
 /**
  * 解析推酷的数据
@@ -46,12 +45,14 @@ public class TuiCoolParser {
 					for (IndexAndType indexAndType : IndexAndType.values()) {
 						if (title.toLowerCase().contains(indexAndType.getType().toLowerCase())) {
 							log.info("already match title:" + title);
+							
+							long countExists = 1;
 							// 存入es前检查title是否存在
-							long countExists = EsClientUtils.checkIsExists(indexAndType,
-									IfgConstants.TITLE, title, IfgConstants.ARTICLE_SOURCE_TUICOOL);
+							countExists = EsClientUtils.checkIsExists(indexAndType,
+									IfgConstants.TITLE, title, IfgConstants.ARTICLE_SOURCE_TUICOOL_TECHNICAL);
 							if (countExists == 0) {
 								log.info("将title存如elasticSearch, title:" + title);
-								EsClientUtils.saveTuiColl(title, body, url, indexAndType, IfgConstants.ARTICLE_SOURCE_TUICOOL);
+									EsClientUtils.saveTuiColl(title, body, url, indexAndType, IfgConstants.ARTICLE_SOURCE_TUICOOL_TECHNICAL);
 							}else{
 								log.info("title在es中已存在:" + title);
 							}
@@ -60,9 +61,12 @@ public class TuiCoolParser {
 				} else {
 					log.info("未找到title");
 				}
+			}else{
+				log.info("解析推酷返回页面失败，html:" + html);
 			}
 		} catch (Exception e) {
 			log.error("接触推酷文章出错，错误原因:", e);
 		}
 	}
+	
 }

@@ -37,13 +37,18 @@ public class TuiCoolController {
         CrawlController controller;
 		try {
 			controller = new CrawlController(config, pageFetcher, robotstxtServer);
+			//推酷技术文章
 			for(int i=0; i<Integer.parseInt(pages); i++){
 				controller.addSeed("http://www.tuicool.com/ah/20/" + i + "?lang=1");
 			}
 			
+			//推酷热门文章
+			for(int i=0; i<Integer.parseInt(pages); i++){
+				controller.addSeed("http://www.tuicool.com/ah/0/" + i + "?lang=1");
+			}
 			controller.start(TuiCoolCrawler.class, numberOfCrawlers);
 		} catch (Exception e) {
-			log.error("爬取推酷技术文章出错", e);
+			log.error("爬取推酷文章出错", e);
 		}
     }
     
