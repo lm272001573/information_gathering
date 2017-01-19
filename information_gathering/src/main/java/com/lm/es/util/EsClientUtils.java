@@ -32,12 +32,14 @@ public class EsClientUtils extends TransClient {
 	public static void saveTuiColl(String title, String body, String url,
 			IndexAndType indexAndType, String index) {
 		try {
+			String timeStamp = DateFormatUtils.format(new Date(),
+					IfgConstants.FORMAT_DATETIME_WITH_SPLIT);
 			XContentBuilder xContentBuilder = jsonBuilder().startObject()
 					.field(IfgConstants.TITLE, title).field(IfgConstants.BODY, body)
-					.field(IfgConstants.URL, url).endObject();
+					.field(IfgConstants.URL, url).field(IfgConstants.TIMESTAMP, timeStamp)
+					.endObject();
 			IndexRequestBuilder builder = TransClient.getClient().prepareIndex(index,
-					indexAndType.getType(),
-					DateFormatUtils.format(new Date(), IfgConstants.FORMAT_DATETIME_WITH_SPLIT));
+					indexAndType.getType(), timeStamp);
 			IndexResponse res = builder.setSource(xContentBuilder).get();
 
 			log.info(MessageFormat.format("保存数据到es结果:{0}, title:{1}", res.getResult(), title));
@@ -49,7 +51,8 @@ public class EsClientUtils extends TransClient {
 
 	/**
 	 * 检查指定字段的文章是否存在
-	 * @param index 
+	 * 
+	 * @param index
 	 */
 	public static long checkIsExists(IndexAndType indexAndType, String filed, String value,
 			String index) {
